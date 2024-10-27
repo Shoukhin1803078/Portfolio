@@ -1,0 +1,1028 @@
+<!-- templates/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ personal_info.name }} - Portfolio</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+</head>
+<body>
+
+
+
+
+
+    <!-- Navigation Bar -->
+<!-- Navigation Bar -->
+<nav class="navbar">
+    <div class="nav-container">
+        <div class="logo">
+            <span class="logo-text">AL AMIN</span>
+            <span class="logo-dot"></span>
+        </div>
+        <div class="nav-toggle" id="navToggle">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <ul class="nav-menu" id="navMenu">
+            <li><a href="#home" class="nav-link">Home</a></li>
+            <li><a href="#services" class="nav-link">Services</a></li>
+            <li><a href="#education" class="nav-link">Education</a></li>
+            <li><a href="#skills" class="nav-link">Skills</a></li>
+
+            <li><a href="#expertise" class="nav-link">Experience</a></li>
+            <li><a href="#projects" class="nav-link">Projects</a></li>
+            
+            <li><a href="#publications" class="nav-link">Publications</a></li>
+            <li><a href="#awards" class="nav-link">Awards</a></li>
+            <li><a href="#contact" class="nav-link">Contact</a></li>
+            <li>
+                <a href="{{ url_for('static', filename='resume/CV.pdf') }}" class="nav-btn" download>
+                    <i class="fas fa-download"></i> Resume
+                </a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1 data-aos="fade-right">Machine Learning & AI Solutions</h1>
+                <p data-aos="fade-right" data-aos-delay="100">
+                    Specialized in building cutting-edge Large Language Models (LLMs) 
+                    and innovative AI solutions for next-generation applications.
+                </p>
+                <div class="hero-buttons" data-aos="fade-right" data-aos-delay="200">
+                    <a href="#contact" class="primary-btn">Get in Touch</a>
+                    <a href="#projects" class="secondary-btn">View Projects</a>
+                </div>
+            </div>
+
+            <div class="profile-section" data-aos="fade-left">
+                <div class="image-wrapper">
+                    <img 
+                        src="{{ url_for('static', filename='image/IMG_6571-p (3).png') }}" 
+                        alt="{{ personal_info.name }}" 
+                        class="profile-image"
+                    >
+                </div>
+                <div class="profile-info">
+                    <h2 class="profile-name">{{ personal_info.name }}</h2>
+                    <p class="profile-title">{{ personal_info.title }}</p>
+                    <div class="profile-social">
+                        <a href="https://www.linkedin.com/in/md-al-amin-tokder/" class="social-button" title="LinkedIn">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                        <a href="https://github.com/Shoukhin1803078" class="social-button" title="GitHub">
+                            <i class="fab fa-github"></i>
+                        </a>
+                        <a href="https://stackoverflow.com/users/12812938/shoukhin78" class="social-button" title="Stack Overflow">
+                            <i class="fab fa-stack-overflow"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Services Section -->
+    <section class="services" id="services">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <h2>Services</h2>
+                <p>Specialized Solutions in AI & Machine Learning</p>
+            </div>
+            <div class="services-grid">
+                <div class="service-card" data-aos="fade-up">
+                    <div class="service-icon">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <h3>Large Language Models</h3>
+                    <p>Custom LLM development and fine-tuning for specific business needs</p>
+                </div>
+                <div class="service-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="service-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3>AI Solutions</h3>
+                    <p>End-to-end AI solution development for complex business problems</p>
+                </div>
+                <div class="service-card" data-aos="fade-up" data-aos-delay="400">
+                    <div class="service-icon">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <h3>Software Development</h3>
+                    <p>Full-stack development with focus on AI integration</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+
+
+
+
+
+<!-- Education Section -->
+<section class="education" id="education">
+    <div class="container">
+        <div class="section-header" data-aos="fade-up">
+            <h2>Education</h2>
+            <p>Academic Background</p>
+        </div>
+        <div class="education-timeline">
+            <!-- BSc Education -->
+            <div class="education-card" data-aos="fade-up">
+                <div class="education-icon">
+                    <i class="fas fa-graduation-cap"></i>
+                </div>
+                <div class="education-content">
+                    <div class="education-header">
+                        <h3>BSc in Computer Science and Engineering</h3>
+                        <span class="cgpa">CGPA: 3.63</span>
+                    </div>
+                    <h4>Rajshahi University of Engineering and Technology (RUET)</h4>
+                    <p class="education-period">
+                        <i class="far fa-calendar-alt"></i>
+                        2018 - 2023
+                    </p>
+                    
+                </div>
+            </div>
+
+
+
+
+            <!-- HSC Education -->
+            <div class="education-card" data-aos="fade-up" data-aos-delay="100">
+                <div class="education-icon">
+                    <i class="fas fa-school"></i>
+                </div>
+                <div class="education-content">
+                    <div class="education-header">
+                        <h3>Higher Secondary School Certificate (HSC)</h3>
+                        <span class="cgpa">GPA: 5.00</span>
+                    </div>
+                    <h4>Rangpur Govt. College, Rangpur, Bangladesh</h4>
+                    <div class="education-details">
+                        <p class="education-period">
+                            <i class="far fa-calendar-alt"></i>
+                            2016 - 2018
+                        </p>
+                        <span class="education-major">Major: Science</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SSC Education -->
+            <div class="education-card" data-aos="fade-up" data-aos-delay="200">
+                <div class="education-icon">
+                    <i class="fas fa-user-graduate"></i>
+                </div>
+                <div class="education-content">
+                    <div class="education-header">
+                        <h3>Secondary School Certificate (SSC)</h3>
+                        <span class="cgpa">GPA: 5.00</span>
+                    </div>
+                    <h4>Rangpur Zilla School, Rangpur, Bangladesh</h4>
+                    <div class="education-details">
+                        <p class="education-period">
+                            <i class="far fa-calendar-alt"></i>
+                            2014 - 2016
+                        </p>
+                        <span class="education-major">Major: Science</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+
+
+
+
+
+
+
+
+<!-- Skills Section -->
+<section class="skills" id="skills">
+    <div class="container">
+        <div class="section-header" data-aos="fade-up">
+            <h2>Technical Skills</h2>
+            <p>Technologies & Expertise</p>
+        </div>
+        <div class="skills-content">
+            <!-- Core Skills -->
+            <div class="skills-group" data-aos="fade-up">
+                <h3>Core Skills</h3>
+                <div class="skills-grid">
+                    <div class="skill-item">
+                        <i class="fas fa-brain"></i>
+                        <span>Machine Learning</span>
+                    </div>
+                    <div class="skill-item">
+                        <i class="fas fa-robot"></i>
+                        <span>Artificial Intelligence</span>
+                    </div>
+                    <div class="skill-item">
+                        <i class="fas fa-code"></i>
+                        <span>Problem Solving</span>
+                    </div>
+                    <div class="skill-item">
+                        <i class="fas fa-globe"></i>
+                        <span>Web Development</span>
+                    </div>
+                    <div class="skill-item">
+                        <i class="fas fa-cube"></i>
+                        <span>Keras</span>
+                    </div>
+                    <div class="skill-item">
+                        <i class="fas fa-fire"></i>
+                        <span>PyTorch</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Competitive Programming -->
+            <div class="competitive-programming" data-aos="fade-up">
+                <h3>Competitive Programming Profile</h3>
+                <div class="platforms-grid">
+                    <a href="https://www.stopstalk.com/user/profile/Shoukhin78" class="platform-card" target="_blank">
+                        <div class="platform-icon">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <div class="platform-info">
+                            <h4>StopStalk</h4>
+                            <span>Profile</span>
+                        </div>
+                    </a>
+                    <a href="https://www.codechef.com/users/shoukhin78" class="platform-card" target="_blank">
+                        <div class="platform-icon">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <div class="platform-info">
+                            <h4>CodeChef</h4>
+                            <span>2-star</span>
+                        </div>
+                    </a>
+                    <a href="https://codeforces.com/profile/Shoukhin78" class="platform-card" target="_blank">
+                        <div class="platform-icon">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <div class="platform-info">
+                            <h4>Codeforces</h4>
+                            <span>Pupil</span>
+                        </div>
+                    </a>
+                    <a href="https://atcoder.jp/users/_shocked_" class="platform-card" target="_blank">
+                        <div class="platform-icon">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <div class="platform-info">
+                            <h4>AtCoder</h4>
+                            <span>9-Kyu</span>
+                        </div>
+                    </a>
+                    <a href="https://leetcode.com/_shocked_/" class="platform-card" target="_blank">
+                        <div class="platform-icon">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <div class="platform-info">
+                            <h4>LeetCode</h4>
+                            <span>Profile</span>
+                        </div>
+                    </a>
+                    
+                    <a href="https://www.hackerearth.com/@mdalamintokder1" class="platform-card" target="_blank">
+                        <div class="platform-icon">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <div class="platform-info">
+                            <h4>HackerEarth</h4>
+                            <span>Profile</span>
+                        </div>
+                    </a>
+                    <a href="https://www.hackerrank.com/profile/alamintokdercse" class="platform-card" target="_blank">
+                        <div class="platform-icon">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <div class="platform-info">
+                            <h4>Hackerrank</h4>
+                            <span>Profile</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+
+
+
+
+            <!-- ICPC Achievement -->
+<div class="icpc-achievement" data-aos="fade-up">
+    <a href="https://icpc.global/ICPCID/DYLDWDSDQ9RP" class="icpc-card" target="_blank">
+        <div class="icpc-icon">
+            <i class="fas fa-trophy"></i>
+        </div>
+        <div class="icpc-content">
+            <div class="icpc-header">
+                <h3>ICPC Dhaka Site-2023</h3>
+                <i class="fas fa-external-link-alt link-icon"></i>
+            </div>
+            <p class="team-name">Team: RUET_MIND_GAMER</p>
+            <div class="icpc-stats">
+                <div class="stat">
+                    <span class="stat-value">522<sup>nd</sup></span>
+                    <span class="stat-label">Rank</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-value">2600+</span>
+                    <span class="stat-label">Teams Perticipate</span>
+                </div>
+            </div>
+        </div>
+    </a>
+</div>
+
+        </div>
+    </div>
+</section>
+
+
+
+
+
+
+
+
+    <!-- Expertise Section -->
+    <section class="expertise" id="expertise">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <h2>Professional Experience</h2>
+                <p>Experience & Achievements</p>
+            </div>
+            <div class="expertise-content">
+                <div class="expertise-timeline">
+                    {% for exp in experience %}
+                    <div class="timeline-item" data-aos="fade-left">
+                        <div class="timeline-content">
+                            <span class="date">{{ exp.period }}</span>
+                            <h3>{{ exp.title }}</h3>
+                            <h4><i class="fas fa-building"></i> {{ exp.company }} - {{ exp.location }}</h4>
+                            <p>{{ exp.description }}</p>
+                            <div class="timeline-skills">
+                                <span class="skill-pill">Machine Learning</span>
+                                <span class="skill-pill">AI Development</span>
+                                <span class="skill-pill">Python</span>
+                                <span class="skill-pill">Deep Learning</span>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                
+                <div class="expertise-stats">
+                    <div class="stat-item" data-aos="fade-up">
+                        <span class="stat-number">800+</span>
+                        <span class="stat-label">Problems Solved</span>
+                    </div>
+                    <div class="stat-item" data-aos="fade-up" data-aos-delay="200">
+                        <span class="stat-number">4+</span>
+                        <span class="stat-label">Years Experience</span>
+                    </div>
+                    <div class="stat-item" data-aos="fade-up" data-aos-delay="400">
+                        <span class="stat-number">2</span>
+                        <span class="stat-label">Publications</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Projects Section -->
+<section class="projects" id="projects">
+    <div class="container">
+        <div class="section-header" data-aos="fade-up">
+            <h2>Featured Projects</h2>
+            <p>Recent Work & Achievements</p>
+        </div>
+
+        <!-- Project Categories -->
+        <div class="project-categories" data-aos="fade-up">
+            <button class="category-btn active" data-category="all">All</button>
+            <button class="category-btn" data-category="ai-ml">AI & ML</button>
+            <button class="category-btn" data-category="web">Web Development</button>
+            <button class="category-btn" data-category="desktop">Desktop Apps</button>
+        </div>
+
+        <div class="projects-grid">
+            <!-- Chatbot SRS Generator -->
+            <div class="project-card" data-category="ai-ml" data-aos="fade-up">
+                <div class="project-content">
+                    <div class="project-header">
+                        <div class="project-icon">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <h3>Chatbot SRS Generator</h3>
+                        <span class="project-badge">Fine Tuned</span>
+                    </div>
+                    <p>AI-powered SRS document generator using fine-tuned language models</p>
+                    <div class="project-tech">
+                        <span class="tech-tag">LLMs</span>
+                        <span class="tech-tag">Generative AI</span>
+                        <span class="tech-tag">GPT</span>
+                        <span class="tech-tag">Python</span>
+                        <span class="tech-tag">OpenAI API</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="http://18.181.214.64:8000/" class="project-link">
+                            View Project Test link <i class="fas fa-arrow-right"></i>
+                        </a>
+                        <!-- <a href="#" class="code-link">
+                            <i class="fas fa-code"></i> View Code
+                        </a> -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Prescription Handler -->
+            <div class="project-card" data-category="ai-ml" data-aos="fade-up" data-aos-delay="100">
+                <div class="project-content">
+                    <div class="project-header">
+                        <div class="project-icon">
+                            <i class="fas fa-notes-medical"></i>
+                        </div>
+                        <h3>Prescription Handler</h3>
+                        <span class="project-badge">AI Automated</span>
+                    </div>
+                    <p>Automated prescription processing system using OCR and ML models</p>
+                    <div class="project-tech">
+                        <span class="tech-tag">OCR</span>
+                        <span class="tech-tag">HTR</span>
+                        <span class="tech-tag">LLMs</span>
+                        <span class="tech-tag">Python</span>
+                        <span class="tech-tag">AI/ML</span>
+                    </div>
+                    <a href="https://colab.research.google.com/drive/1X-nDKzW6HWDOqg_grKFGUICL3QTbYMFt?usp=sharing" class="project-link">
+                        Project Link <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Luna -->
+            <div class="project-card" data-category="ai-ml" data-aos="fade-up" data-aos-delay="200">
+                <div class="project-content">
+                    <div class="project-header">
+                        <div class="project-icon">
+                            <i class="fas fa-moon"></i>
+                        </div>
+                        <h3>Luna</h3>
+                        <span class="project-badge">AI Model</span>
+                    </div>
+                    <p>Advanced language model implementation with decentralized architecture</p>
+                    <div class="project-tech">
+                        <span class="tech-tag">LLMs</span>
+                        <span class="tech-tag">Generative AI</span>
+                        <span class="tech-tag">GPT</span>
+                        <span class="tech-tag">ML Models</span>
+                    </div>
+                    <a href="https://app.devolvedai.com/" class="project-link">
+                        View Project <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Heart Disease Prediction -->
+            <div class="project-card" data-category="ai-ml" data-aos="fade-up" data-aos-delay="300">
+                <div class="project-content">
+                    <div class="project-header">
+                        <div class="project-icon">
+                            <i class="fas fa-heartbeat"></i>
+                        </div>
+                        <h3>Heart Disease Prediction</h3>
+                        <span class="project-badge">ML</span>
+                    </div>
+                    <p>Machine learning model for predicting heart disease risks</p>
+                    <div class="project-tech">
+                        <span class="tech-tag">Python</span>
+                        <span class="tech-tag">Machine Learning</span>
+                        <span class="tech-tag">Data Analysis</span>
+                    </div>
+                    <a href="https://github.com/Shoukhin1803078/Heart-Disease-Detection" class="project-link">
+                        View Project <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Stop Ragging -->
+            <div class="project-card" data-category="web" data-aos="fade-up" data-aos-delay="400">
+                <div class="project-content">
+                    <div class="project-header">
+                        <div class="project-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h3>Stop Ragging</h3>
+                        <span class="project-badge">Web App</span>
+                    </div>
+                    <p>Anti-ragging platform for educational institutions</p>
+                    <div class="project-tech">
+                        <span class="tech-tag">Node.js</span>
+                        <span class="tech-tag">Express.js</span>
+                        <span class="tech-tag">PHP</span>
+                        <span class="tech-tag">MySQL</span>
+                        <span class="tech-tag">JavaScript</span>
+                    </div>
+                    <a href="https://github.com/Shoukhin1803078/Stop_ragging_project" class="project-link">
+                        Visit Website <i class="fas fa-external-link-alt"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Student Health -->
+            <div class="project-card" data-category="desktop" data-aos="fade-up" data-aos-delay="500">
+                <div class="project-content">
+                    <div class="project-header">
+                        <div class="project-icon">
+                            <i class="fas fa-dumbbell"></i>
+                        </div>
+                        <h3>Student Health & Fitness Test</h3>
+                        <span class="project-badge">Desktop App</span>
+                    </div>
+                    <p>Java-based application for tracking student health metrics</p>
+                    <div class="project-tech">
+                        <span class="tech-tag">Java Swing</span>
+                        <span class="tech-tag">Desktop Application</span>
+                    </div>
+                    <a href="https://github.com/Shoukhin1803078/Project" class="project-link">
+                        View Details <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- RUET Hall Management -->
+            <div class="project-card" data-category="web" data-aos="fade-up" data-aos-delay="600">
+                <div class="project-content">
+                    <div class="project-header">
+                        <div class="project-icon">
+                            <i class="fas fa-building"></i>
+                        </div>
+                        <h3>RUET Hall Management System</h3>
+                        <span class="project-badge">Web App</span>
+                    </div>
+                    <p>Comprehensive hall management system for university</p>
+                    <div class="project-tech">
+                        <span class="tech-tag">PHP</span>
+                        <span class="tech-tag">MySQL</span>
+                        <span class="tech-tag">HTML</span>
+                        <span class="tech-tag">CSS</span>
+                        <span class="tech-tag">JavaScript</span>
+                    </div>
+                    <a href="https://github.com/Shoukhin1803078/Dalan-Capa-Hall-Management-system" class="project-link">
+                        View Project <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+
+
+
+
+
+
+
+
+
+   
+
+
+    <!-- Publications Section -->
+<section class="publications" id="publications">
+    <div class="container">
+        <div class="section-header" data-aos="fade-up">
+            <h2>Research Publications</h2>
+            <p>Academic Contributions</p>
+        </div>
+        <div class="publications-grid">
+            
+
+            <!-- Second Publication -->
+            <div class="publication-card" data-aos="fade-up" data-aos-delay="200">
+                <div class="publication-content">
+                    <div class="publication-icon">
+                        <i class="fas fa-book"></i>
+                    </div>
+                    <h3>BloodStein Hyperspectral Image Classification Using 3D CNN</h3>
+                    <p>ICEEICT, IEEE Xplore</p>
+                    <a href="https://ieeexplore.ieee.org/abstract/document/10534494" 
+                       class="pub-link" 
+                       target="_blank" 
+                       rel="noopener noreferrer">
+                        Read Publication <i class="fas fa-external-link-alt"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- First Publication -->
+            <div class="publication-card" data-aos="fade-up" data-aos-delay="100">
+                <div class="publication-content">
+                    <div class="publication-icon">
+                        <i class="fas fa-book"></i>
+                    </div>
+                    <h3>Garbage Classification using a Transfer Learning with Parameter Tuning</h3>
+                    <p>IEEE Xplore</p>
+                    <a href="https://ieeexplore.ieee.org/document/10534450" 
+                       class="pub-link" 
+                       target="_blank" 
+                       rel="noopener noreferrer">
+                        Read Publication <i class="fas fa-external-link-alt"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+
+ 
+    <!-- Awards Section -->
+<section class="awards" id="awards">
+    <div class="container">
+        <div class="section-header" data-aos="fade-up">
+            <h2>Honors & Awards</h2>
+            <p>Recognition & Achievements</p>
+        </div>
+        <div class="awards-grid">
+            {% for award in awards %}
+            <div class="award-card" data-aos="fade-up" data-aos-delay="{{ loop.index * 100 }}">
+                <div class="award-icon">
+                    <i class="fas fa-trophy"></i>
+                </div>
+                <div class="award-content">
+                    <h3>{{ award }}</h3>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <!-- Additional Awards Stats -->
+        <div class="awards-stats" data-aos="fade-up">
+            <div class="stat-item">
+                <span class="stat-number">4+</span>
+                <span class="stat-label">Awards</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">170+</span>
+                <span class="stat-label">Contest Perticipation</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">Top 10</span>
+                <span class="stat-label">Finalist</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <h2>Get in Touch</h2>
+                <p>Let's Discuss Your Next Project</p>
+            </div>
+            <div class="contact-content">
+                <div class="contact-info" data-aos="fade-right">
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <div>
+                            <h3>Email</h3>
+                            <p>{{ personal_info.email }}</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-phone"></i>
+                        <div>
+                            <h3>Phone</h3>
+                            <p>{{ personal_info.phone }}</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <div>
+                            <h3>Location</h3>
+                            <p>{{ personal_info.location }}</p>
+                        </div>
+                    </div>
+                    <div class="social-links">
+                        <a href="https://www.linkedin.com/in/md-al-amin-tokder/" class="social-link" target="_blank">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                        <a href="https://github.com/Shoukhin1803078" class="social-link" target="_blank">
+                            <i class="fab fa-github"></i>
+                        </a>
+                        <a href="https://stackoverflow.com/users/12812938/shoukhin78" class="social-link" target="_blank">
+                            <i class="fab fa-stack-overflow"></i>
+                        </a>
+                    </div>
+                </div>
+                <form class="contact-form" data-aos="fade-left" onsubmit="return sendEmail(event)" id="contactForm">
+                    <div class="form-group">
+                        <input type="text" id="name" placeholder="Your Name" required class="form-input">
+                    </div>
+                    <div class="form-group">
+                        <input type="email" id="email" placeholder="Your Email" required class="form-input">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="subject" placeholder="Subject" required class="form-input">
+                    </div>
+                    <div class="form-group">
+                        <textarea id="message" placeholder="Your Message" required class="form-input"></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn">
+                        <span>Send Message</span>
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <span class="logo-text">AL AMIN</span>
+                    <span class="logo-dot"></span>
+                </div>
+                <p>Building the future with AI and Machine Learning</p>
+                <div class="footer-links">
+                    <a href="#home">Home</a>
+                    <a href="#services">Services</a>
+                    <a href="#expertise">Expertise</a>
+                    <a href="#projects">Projects</a>
+                    <a href="#contact">Contact</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 {{ personal_info.name }}. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <script>
+        // Initialize AOS
+        AOS.init({
+            duration: 1000,
+            once: true
+        });
+    
+        // Navigation toggle and scroll functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Mobile menu toggle
+            document.getElementById('navToggle').addEventListener('click', function() {
+                this.classList.toggle('active');
+                document.getElementById('navMenu').classList.toggle('active');
+            });
+    
+            // Get all sections and navigation links
+            const sections = document.querySelectorAll('section[id]');
+            const navLinks = document.querySelectorAll('.nav-link');
+    
+            // Smooth scrolling
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                    // Close mobile menu after clicking
+                    document.getElementById('navMenu').classList.remove('active');
+                    document.getElementById('navToggle').classList.remove('active');
+                });
+            });
+    
+            // Active state on scroll
+            function highlightNavigation() {
+                let scrollY = window.pageYOffset;
+    
+                sections.forEach(current => {
+                    const sectionHeight = current.offsetHeight;
+                    const sectionTop = current.offsetTop - 100; // Adjust this value to change when the active state triggers
+                    const sectionId = current.getAttribute('id');
+    
+                    if (scrollY > sectionTop && scrollY <= sectionTop + sectionHeight) {
+                        navLinks.forEach(link => {
+                            link.classList.remove('active');
+                            if (link.getAttribute('href') === `#${sectionId}`) {
+                                link.classList.add('active');
+                            }
+                        });
+                    }
+                });
+            }
+    
+            // Add scroll event listener
+            window.addEventListener('scroll', highlightNavigation);
+            
+            // Run once on page load
+            highlightNavigation();
+        });
+    
+        // Email handling function
+        function sendEmail(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const subject = document.getElementById('subject').value;
+            const message = document.getElementById('message').value;
+            
+            const emailBody = `
+    Name: ${name}
+    Email: ${email}
+    
+    Message:
+    ${message}`;
+            
+            const mailtoLink = `mailto:alamintokdercse@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(emailBody)}`;
+            
+            window.location.href = mailtoLink;
+            document.getElementById('contactForm').reset();
+            
+            return false;
+        }
+    
+        // Projects filtering functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const categoryButtons = document.querySelectorAll('.category-btn');
+            const projectCards = document.querySelectorAll('.project-card');
+    
+            categoryButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    // Remove active class from all buttons
+                    categoryButtons.forEach(btn => btn.classList.remove('active'));
+                    // Add active class to clicked button
+                    button.classList.add('active');
+    
+                    const category = button.dataset.category;
+    
+                    projectCards.forEach(card => {
+                        if (category === 'all' || card.dataset.category === category) {
+                            card.style.display = 'block';
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    });
+                });
+            });
+        });
+    
+        // Smooth scrolling for all links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                if (this.getAttribute('href') !== '#') {  // Exclude links with just '#'
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                }
+            });
+        });
+    
+        // Optional: Add scroll to top functionality
+        const scrollToTop = () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        };
+    
+        // Optional: Show/hide scroll to top button
+        window.addEventListener('scroll', () => {
+            const scrollTopBtn = document.querySelector('.scroll-top');
+            if (scrollTopBtn) {
+                if (window.pageYOffset > 100) {
+                    scrollTopBtn.classList.add('show');
+                } else {
+                    scrollTopBtn.classList.remove('show');
+                }
+            }
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,12 @@
+flask
+flask-mail
+
+
+
+
+
+
+
+
+
+
