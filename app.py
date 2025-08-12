@@ -4,12 +4,14 @@
 from flask import Flask, render_template
 from flask import send_from_directory
 import os 
+from flask import Flask, render_template, request, jsonify
+# from flask import request, jsonify
+# from transformers import pipeline
+# from flask import Flask, request, jsonify, render_template_string, send_from_directory
+
 
 
 app = Flask(__name__)
-
-
-
 
 
 
@@ -119,6 +121,53 @@ def download_resume():
 
 
 
+#-------------------------------------Chatbot building----------------------------------------
+
+# Add this chatbot function and endpoint to your main.py
+
+def simple_chatbot_response(question):
+    question_lower = question.lower()
+    
+    if any(word in question_lower for word in ['hello', 'hi', 'hey', 'greetings']):
+        return "Hello! I'm here to help you learn about MD AL AMIN TOKDER. What would you like to know?"
+    elif any(word in question_lower for word in ['contact', 'email', 'phone', 'reach']):
+        return "📧 Email: alamintokdercse@gmail.com\n📞 Phone: +8801750206042\n📍 Location: Dhaka, Bangladesh"
+    elif any(word in question_lower for word in ['experience', 'work', 'job', 'career']):
+        return "🔹 Current: ML Engineer at JB Connect Ltd, Dhaka (Jan 2024 - Present)\n🔹 Previous: ML Engineer at Devolved AI, USA (Sep 2022 - Nov 2023)\n🔹 Earlier: Junior Software Engineer at Code Studio Ltd (Jan 2022 - Nov 2022)"
+    elif any(word in question_lower for word in ['education', 'study', 'university', 'degree']):
+        return "🎓 BSc in Computer Science and Engineering\n🏫 Rajshahi University of Engineering and Technology (RUET)\n📅 2018 - 2023 | CGPA: 3.63"
+    elif any(word in question_lower for word in ['project', 'luna', 'prescription']):
+        return "🚀 **Luna**: Advanced LLM project using Generative AI, GPT, Decentralized AI\n🏥 **Prescription Handler**: AI-powered OCR system with HTR, LLMs, Python"
+    elif any(word in question_lower for word in ['skill', 'technology', 'expertise', 'ai', 'ml']):
+        return "💻 Skills: Generative AI, LLMs, GPT models, Decentralized AI, OCR, HTR, Python, Web Development (PHP, MySQL, HTML, CSS, JS)"
+    elif any(word in question_lower for word in ['award', 'achievement', 'contest']):
+        return "🏆 Awards:\n• ICPC Preliminary Dhaka Site 2023 (522th/2600 teams)\n• RUET Contest 2023 (7th Final)\n• North Bengal Startup Summit 2023 (4th)"
+    else:
+        return "I can help with info about:\n• Work experience & career\n• Education background\n• Projects & research\n• Skills & expertise\n• Contact details\n• Awards & achievements\n\nWhat interests you?"
+
+@app.route('/chat', methods=['POST'])
+def chat():
+    try:
+        data = request.get_json()
+        user_message = data.get('message', '')
+        
+        if not user_message.strip():
+            return jsonify({'response': 'Please ask me something about Al Amin!'})
+        
+        bot_response = simple_chatbot_response(user_message)
+        return jsonify({'response': bot_response})
+    
+    except Exception as e:
+        return jsonify({'response': 'Sorry, I encountered an error. Please try again!'})
+
+#-----------------------------------------------------------------------------
+
+
+
+
+
+if __name__ == '__main__':
+    app.run(debug=True)
 
 
 
@@ -128,5 +177,18 @@ def download_resume():
 
 
 
-# if __name__ == '__main__':
-#     app.run(debug=True)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

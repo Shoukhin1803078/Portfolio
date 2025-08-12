@@ -16,6 +16,40 @@
 
 
 
+
+
+
+
+<!-- ----------------------------------Chatbot ----------------------------------->
+<div class="chatbot-bubble" onclick="toggleChat()">
+    <span class="bubble-icon">💬</span>
+    <div class="sparkle"></div>
+    <div class="sparkle sparkle-2"></div>
+    <div class="sparkle sparkle-3"></div>
+</div>
+<div class="chat-window" id="chatWindow">
+    <div class="chat-header">
+        Ask about Al Amin
+        <button class="chat-close" onclick="toggleChat()">×</button>
+    </div>
+    <div class="chat-messages" id="messages">
+        <div class="message bot">
+            <div class="message-content">Hi! 👋 Ask me about Al Amin's experience, projects, education, or contact info!</div>
+        </div>
+    </div>
+    <div class="chat-input-container">
+        <input type="text" class="chat-input" id="chatInput" placeholder="Type your question..." onkeypress="if(event.key==='Enter') sendMessage()">
+        <button class="chat-send" onclick="sendMessage()">→</button>
+    </div>
+</div>
+
+<!-- ----------------------------------Chatbot end----------------------------------->
+
+
+
+
+
+
     <!-- Navigation Bar -->
 <!-- Navigation Bar -->
 <nav class="navbar">
@@ -1022,7 +1056,73 @@
                 }
             }
         });
+
+
+
+//  ----------------------------------Chatbot start----------------------------------->
+function toggleChat() {
+    const window = document.getElementById('chatWindow');
+    window.classList.toggle('active');
+    if (window.classList.contains('active')) {
+        document.getElementById('chatInput').focus();
+    }
+}
+
+function addMessage(text, sender, isTyping = false) {
+    const messages = document.getElementById('messages');
+    const div = document.createElement('div');
+    div.className = `message ${sender} ${isTyping ? 'typing' : ''}`;
+    div.innerHTML = isTyping 
+        ? `<div class="message-content"><span class="typing-indicator"><span></span><span></span><span></span></div>`
+        : `<div class="message-content">${text}</div>`;
+    messages.appendChild(div);
+    messages.scrollTop = messages.scrollHeight;
+}
+
+async function sendMessage() {
+    const input = document.getElementById('chatInput');
+    const message = input.value.trim();
+    if (!message) return;
+    
+    addMessage(message, 'user');
+    input.value = '';
+    addMessage('', 'bot', true); // Add typing indicator
+    
+    try {
+        const response = await fetch('/chat', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ message: message })
+        });
+        const data = await response.json();
+        // Remove typing indicator
+        const typingMessage = document.querySelector('.message.typing');
+        if (typingMessage) typingMessage.remove();
+        // Add bot response
+        setTimeout(() => addMessage(data.response, 'bot'), 300);
+    } catch (error) {
+        const typingMessage = document.querySelector('.message.typing');
+        if (typingMessage) typingMessage.remove();
+        addMessage('Sorry, something went wrong!', 'bot');
+    }
+}
+
+// Close chat when clicking outside
+document.addEventListener('click', function(event) {
+    const chatWindow = document.getElementById('chatWindow');
+    const chatBubble = document.querySelector('.chatbot-bubble');
+    if (!chatWindow.contains(event.target) && !chatBubble.contains(event.target)) {
+        chatWindow.classList.remove('active');
+    }
+});
+//--------------------------------------------Chatbot end-----------------------------------
+
+         
     </script>
 
 </body>
 </html>
+
+
+
+
