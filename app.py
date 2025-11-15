@@ -1,6 +1,5 @@
 
 
-
 from flask import Flask, render_template
 from flask import send_from_directory
 import os 
@@ -9,9 +8,141 @@ from flask import Flask, render_template, request, jsonify
 # from transformers import pipeline
 # from flask import Flask, request, jsonify, render_template_string, send_from_directory
 
+# app.py
+from flask import Flask, request, jsonify
+from groq import Groq
+from dotenv import load_dotenv
+import os
+
+load_dotenv()  # load GROQ_API_KEY from .env
+
+app = Flask(__name__)
+
+client = Groq(api_key=os.getenv("GROQ_API_KEY"))
+
+system_prompt = """
+You are a highly professional, polite, and detailed AI Assistant designed to provide comprehensive information exclusively about MD AL AMIN TOKDER, a Machine Learning Engineer.
+
+### 🎯 Core Goal
+Your sole function is to act as a searchable, dynamic repository of MD AL AMIN TOKDER's professional and academic profile.
+
+### 🎭 Personality and Tone
+1.  Tone: Maintain a formal, professional, helpful, and enthusiastic tone.
+2.  Persona: Speak in the third person (referring to the subject as "MD AL AMIN TOKDER" or "He/His") unless the user explicitly asks for a direct quote from the "About" section.
+
+### 🧠 Knowledge Base (Key Facts)
+You must answer questions based *only* on the following verified data points:
+
+#### 🧑‍💻 Professional Experience
+1. Software Engineer (AI/ML) at JB Connect Ltd** (Dhaka, Bangladesh; 08/2024 - Current).
+    - Built a RAG-based product recommendation engine for Sevensix (Japan e-commerce).
+    - Developed a Leather Defect Detection Model (ViT) achieving 84% accuracy.
+    - Engineered a Medical Diagnosis Chatbot with LangChain, LangGraph, and multi-agent architectures, achieving 89% response accuracy.
+    - Integrated OpenAI, Gemini, and LLaMA3 APIs into enterprise workflows.
+2. Machine Learning Engineer at Devolved AI Ltd** (Uttara, Dhaka; 06/2023 - 07/2024).
+    - Developed Luna, a decentralized AI chatbot leveraging LLMs & Generative AI with federated learning (85% query resolution accuracy).
+    - Developed an AI-powered Prescription Handler using OCR/HTR + LLMs.
+3. Junior ML Engineer at Devolved AI Ltd** (Uttara, Dhaka; 02/2022 - 04/2023).
+    - Implemented enterprise solutions for Prime’s Content Experiment Platform using Fastapi, MySQL, HTML, CSS, and JS.
+    - Designed and developed scalable systems for marketing optimization experiments. 
+    - Gained early hands-on experience with AI model training and dataset-driven development.
+
+#### 🚀 Key Projects
+1. SRS Generator: An AI-powered chatbot system that auto-generates Software Requirement Specifications (SRS) using fine-tuned LLMs and the OpenAl API.
+2. Sevensix: An award-winning RAG-based product recommendation engine for a leading Japanese e-commerce company.
+3. Poker Analyzer: A game analytics system that extracts poker statistics from video streams using computer vision and ML models.
+4. Leather Defect Detector: An AI-powered quality inspection system using Vision Transformer (ViT) models, improving defect detection accuracy.
+5. Luna**: A decentralized AI chatbot leveraging LLMs and Generative AI.
+6. Prescription Handler: An AI Automated prescription handling system using OCR, HTR, and LLMs.
+
+#### 🛠️ Skills & Technologies
+1. Generative AI & LLMs: Python, RAG Systems, AI Agents, Model Fine-tuning, OpenAl, Gemini, LLaMA3, Lang Chain, LangGraph, LLMs.
+2. Deep Learning/ML: Keras, PyTorch, Machine Learning, Computer Vision, Transfer Learning, 3D CNN.
+3. Development & Tools: FastAPI, Django, Node.js, REST APIs, Git, Azure, AWS, Linux, Full-Stack Development.
+4. Specialized: OCR (Optical Character Recognition), HTR (Handwritten Text Recognition).
+
+#### 🎓 Education & Publications
+ Bachelor of Science (Computer Science and Engineering) from Rajshahi University of Engineering and Technology (RUET).
+    - CGPA: 3.63.
+    - Period: 11/2018 - 10/2022.
+
+#### Publications (IEEE):
+ - Garbage Classification: Achieved high accuracy in waste classification using Transfer Learning with Parameter Tuning. (Published: IEEE)
+ - BloodStein Hyperspectral Image Classification: Using 3D CNN for advanced classification of hyperspectral medical images. (Published: ICEEICT, IEEE Xplore)
+
+#### 🏆 Awards 
+- ICPC Preliminary Dhaka Site 2023 (522th out of 2600 teams) - 1st September, 2023
+- North Bengal Startup Summit 2023 Startup Idea contest Finalist (4th)
+- Idea and Project showcasing Contest, RUET (Selected for Final round 7th position) - 1st September, 2023
+
+####  Contact
+- Contact:  Email: Malamintokdercse@gmail.com , 
+- Phone: +8801750206042.
+- Location: Dhaka, Bangladesh.
+
+### 🚫 Constraints and Guardrails
+1.  **Scope:** **NEVER** discuss any topic outside of MD AL AMIN TOKDER's CV content. If asked about irrelevant topics (e.g., weather, news, other people), politely state that you can only provide information about MD AL AMIN TOKDER.
+
+### 🚀 Initial Greeting (What to say first)
+When a user begins the conversation (e.g., with "hello" or "start"), **you MUST use the following exact phrase and nothing else for the first turn**:
+"Hello! I am an AI assistant here to provide detailed and verified information about MD AL AMIN TOKDER, a Machine Learning Engineer specializing in Generative AI and LLMs. What specific part of his profile are you interested in?"
+"""
+
+
+
 
 
 app = Flask(__name__)
+
+
+
+
+
+
+def simple_chatbot_response(user_message):
+    messages = [
+        {"role": "system", "content": system_prompt},
+        {"role": "user", "content": user_message}
+    ]
+
+    completion = client.chat.completions.create(
+        model="llama-3.1-8b-instant",
+        messages=messages,
+        temperature=0.7,
+        max_completion_tokens=300,
+        top_p=1
+    )
+
+    return completion.choices[0].message.content
+
+# @app.route("/chat", methods=["POST"])
+# def chat():
+#     data = request.json
+#     user_message = data.get("message", "")  # <-- match your JS key
+#     if not user_message:
+#         return jsonify({"response": "No message provided"}), 400
+    
+#     bot_response = simple_chatbot_response(user_message)
+#     return jsonify({"response": bot_response})  # <-- match your JS expectation
+
+@app.route('/chat', methods=['POST'])
+def chat():
+    try:
+        data = request.get_json()
+        user_message = data.get('message', '').strip()  # clean whitespace
+        
+        if not user_message:
+            return jsonify({'response': 'Please ask me something about Al Amin!'})
+
+        # Get response from Groq
+        bot_response = simple_chatbot_response(user_message)
+
+        return jsonify({'response': bot_response})
+
+    except Exception as e:
+        # Optional: log error for debugging
+        print(f"Chatbot error: {e}")
+        return jsonify({'response': 'Sorry, I encountered an error. Please try again!'})
 
 
 
@@ -30,25 +161,37 @@ def home():
     # Experience data
     experience = [
         {
-            'title': 'Machine Learning Engineer',
+            'title': 'Software Engineer (AI/ML)',
             'company': 'JB Connect Ltd',
             'location': 'Dhaka, Bangladesh',
-            'period': 'Jan 2024 - Present',
-            'description': 'Build reallife application using AI, Generative AI model, Use GEMINI, OPEN AI API, open source model LAMA2,3 API in various business solution'
+            'period': 'July 2024 - Present',
+            'description': """Built a RAG-based product recommendation engine for Sevensix (Japan e-commerce), in personalized recommendations and
+significantly boosting customer engagement.
+• Developed a Leather Defect Detection Model (ViT) for FC Company Japan, improving defect detection accuracy to 84%
+• Designed and deployed Generative AI, LLM, agentic AI, and RAG systems for enterprise applications, enhancing automation and
+decision-making. Engineered a Medical Diagnosis Chatbot with LangChain, LangGraph, and multi-agent architectures, enabling contextual
+reasoning with 89% response accuracy on medical queries.
+• Integrated OpenAI, Gemini, and LLaMA3 APIs into enterprise workflows, and deployments with cloud-native MLOps pipelines"""
         },
         {
             'title': 'Machine Learning Engineer',
             'company': 'Devolved AI',
-            'location': 'Bakersfield, CA, USA',
-            'period': 'Sep 2022 - Nov 2023',
-            'description': 'Building cutting edge LLMs for innovative solutions. Generative AI, LLMs, GPT, Decentralized AI'
+            'location': 'Uttara,Dhaka,Bangladesh',
+            'period': 'May 2023 - July 2024',
+            'description': """ Developed and optimized ML pipelines for training & inference, fine-tuning LLMs for the Chatbot SRS Generator
+• Built Luna, a decentralized AI chatbot leveraging LLMs & Generative AI with federated learning with 85% query resolution accuracy.
+• Developed an AI-powered Prescription Handler with OCR/HTR + LLMs, automating prescription digitization and improving efficiency.
+• Applied LoRA fine-tuning and distributed ML techniques to enhance scalability, robustness, and cost-effectiveness. """
+            
         },
         {
-            'title': 'Junior Software Engineer',
-            'company': 'Code Studio Ltd',
-            'location': 'Rajshahi , Bangladesh',
-            'period': 'Jan 2022 - Nov 2022',
-            'description': 'Develop Website with PHP ,MYSQL, HTML,CSS,JS'
+            'title': 'Junior Machine Learning Engineer',
+            'company': 'Devolved AI',
+            'location': 'Uttara,Dhaka,Bangladesh',
+            'period': 'Feb 2022 - April 2023',
+            'description': """Implemented enterprise solutions for Prime’s Content Experiment Platform using Fastapi, MySQL, HTML, CSS, and JS.
+• Designed and developed scalable systems for marketing optimization experiments.
+• Gained early hands-on experience with AI model training and dataset-driven development."""
         }
 
     ]
@@ -125,40 +268,43 @@ def download_resume():
 
 # Add this chatbot function and endpoint to your main.py
 
-def simple_chatbot_response(question):
-    question_lower = question.lower()
+# def simple_chatbot_response(question):
+#     question_lower = question.lower()
     
-    if any(word in question_lower for word in ['hello', 'hi', 'hey', 'greetings']):
-        return "Hello! I'm here to help you learn about MD AL AMIN TOKDER. What would you like to know?"
-    elif any(word in question_lower for word in ['contact', 'email', 'phone', 'reach']):
-        return "📧 Email: alamintokdercse@gmail.com\n📞 Phone: +8801750206042\n📍 Location: Dhaka, Bangladesh"
-    elif any(word in question_lower for word in ['experience', 'work', 'job', 'career']):
-        return "🔹 Current: ML Engineer at JB Connect Ltd, Dhaka (Jan 2024 - Present)\n🔹 Previous: ML Engineer at Devolved AI, USA (Sep 2022 - Nov 2023)\n🔹 Earlier: Junior Software Engineer at Code Studio Ltd (Jan 2022 - Nov 2022)"
-    elif any(word in question_lower for word in ['education', 'study', 'university', 'degree']):
-        return "🎓 BSc in Computer Science and Engineering\n🏫 Rajshahi University of Engineering and Technology (RUET)\n📅 2018 - 2023 | CGPA: 3.63"
-    elif any(word in question_lower for word in ['project', 'luna', 'prescription']):
-        return "🚀 **Luna**: Advanced LLM project using Generative AI, GPT, Decentralized AI\n🏥 **Prescription Handler**: AI-powered OCR system with HTR, LLMs, Python"
-    elif any(word in question_lower for word in ['skill', 'technology', 'expertise', 'ai', 'ml']):
-        return "💻 Skills: Generative AI, LLMs, GPT models, Decentralized AI, OCR, HTR, Python, Web Development (PHP, MySQL, HTML, CSS, JS)"
-    elif any(word in question_lower for word in ['award', 'achievement', 'contest']):
-        return "🏆 Awards:\n• ICPC Preliminary Dhaka Site 2023 (522th/2600 teams)\n• RUET Contest 2023 (7th Final)\n• North Bengal Startup Summit 2023 (4th)"
-    else:
-        return "I can help with info about:\n• Work experience & career\n• Education background\n• Projects & research\n• Skills & expertise\n• Contact details\n• Awards & achievements\n\nWhat interests you?"
+#     if any(word in question_lower for word in ['hello', 'hi', 'hey', 'greetings']):
+#         return "Hello! I'm here to help you learn about MD AL AMIN TOKDER. What would you like to know?"
+#     elif any(word in question_lower for word in ['contact', 'email', 'phone', 'reach']):
+#         return "📧 Email: alamintokdercse@gmail.com\n📞 Phone: +8801750206042\n📍 Location: Dhaka, Bangladesh"
+#     elif any(word in question_lower for word in ['experience', 'work', 'job', 'career']):
+#         return "🔹 Current: ML Engineer at JB Connect Ltd, Dhaka (Jan 2024 - Present)\n🔹 Previous: ML Engineer at Devolved AI, USA (Sep 2022 - Nov 2023)\n🔹 Earlier: Junior Software Engineer at Code Studio Ltd (Jan 2022 - Nov 2022)"
+#     elif any(word in question_lower for word in ['education', 'study', 'university', 'degree']):
+#         return "🎓 BSc in Computer Science and Engineering\n🏫 Rajshahi University of Engineering and Technology (RUET)\n📅 2018 - 2023 | CGPA: 3.63"
+#     elif any(word in question_lower for word in ['project', 'luna', 'prescription']):
+#         return "🚀 **Luna**: Advanced LLM project using Generative AI, GPT, Decentralized AI\n🏥 **Prescription Handler**: AI-powered OCR system with HTR, LLMs, Python"
+#     elif any(word in question_lower for word in ['skill', 'technology', 'expertise', 'ai', 'ml']):
+#         return "💻 Skills: Generative AI, LLMs, GPT models, Decentralized AI, OCR, HTR, Python, Web Development (PHP, MySQL, HTML, CSS, JS)"
+#     elif any(word in question_lower for word in ['award', 'achievement', 'contest']):
+#         return "🏆 Awards:\n• ICPC Preliminary Dhaka Site 2023 (522th/2600 teams)\n• RUET Contest 2023 (7th Final)\n• North Bengal Startup Summit 2023 (4th)"
+#     else:
+#         return "I can help with info about:\n• Work experience & career\n• Education background\n• Projects & research\n• Skills & expertise\n• Contact details\n• Awards & achievements\n\nWhat interests you?"
 
-@app.route('/chat', methods=['POST'])
-def chat():
-    try:
-        data = request.get_json()
-        user_message = data.get('message', '')
+
+
+
+# @app.route('/chat', methods=['POST'])
+# def chat():
+#     try:
+#         data = request.get_json()
+#         user_message = data.get('message', '')
         
-        if not user_message.strip():
-            return jsonify({'response': 'Please ask me something about Al Amin!'})
+#         if not user_message.strip():
+#             return jsonify({'response': 'Please ask me something about Al Amin!'})
         
-        bot_response = simple_chatbot_response(user_message)
-        return jsonify({'response': bot_response})
+#         bot_response = simple_chatbot_response(user_message)
+#         return jsonify({'response': bot_response})
     
-    except Exception as e:
-        return jsonify({'response': 'Sorry, I encountered an error. Please try again!'})
+#     except Exception as e:
+#         return jsonify({'response': 'Sorry, I encountered an error. Please try again!'})
 
 #-----------------------------------------------------------------------------
 
