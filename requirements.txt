@@ -1,4 +1,4 @@
-Gunicorn
+# Gunicorn
 flask
 flask-mail
 python-dotenv 
