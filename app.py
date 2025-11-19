@@ -130,6 +130,7 @@ def chat():
 
         # Get response from Groq
         bot_response = simple_chatbot_response(user_message)
+        # print(bot_response)
 
         return jsonify({'response': bot_response})
 

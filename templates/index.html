@@ -972,30 +972,38 @@
             // Run once on page load
             highlightNavigation();
         });
+
+
     
         // Email handling function
-        function sendEmail(e) {
-            e.preventDefault();
-            
-            const name = document.getElementById('name').value;
-            const email = document.getElementById('email').value;
-            const subject = document.getElementById('subject').value;
-            const message = document.getElementById('message').value;
-            
-            const emailBody = `
-    Name: ${name}
-    Email: ${email}
-    
-    Message:
-    ${message}`;
-            
-            const mailtoLink = `mailto:alamintokdercse@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(emailBody)}`;
-            
-            window.location.href = mailtoLink;
-            document.getElementById('contactForm').reset();
-            
+
+        async function submitContactForm(event) {
+            event.preventDefault();
+
+            const payload = {
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                subject: document.getElementById('subject').value,
+                message: document.getElementById('message').value
+            };
+
+            const res = await fetch("/send-email", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload)
+            });
+
+            const data = await res.json();
+
+            alert(data.message);
+
+            if (res.ok) {
+                document.getElementById("contactForm").reset();
+            }
+
             return false;
         }
+
     
         // Projects filtering functionality
         document.addEventListener('DOMContentLoaded', function() {
@@ -1061,64 +1069,66 @@
 
 
 //  ----------------------------------Chatbot start----------------------------------->
-function toggleChat() {
-    const window = document.getElementById('chatWindow');
-    window.classList.toggle('active');
-    if (window.classList.contains('active')) {
-        document.getElementById('chatInput').focus();
-    }
-}
+        function toggleChat() {
+            const window = document.getElementById('chatWindow');
+            window.classList.toggle('active');
+            if (window.classList.contains('active')) {
+                document.getElementById('chatInput').focus();
+            }
+        }
 
-function addMessage(text, sender, isTyping = false) {
-    const messages = document.getElementById('messages');
-    const div = document.createElement('div');
-    div.className = `message ${sender} ${isTyping ? 'typing' : ''}`;
-    div.innerHTML = isTyping 
-        ? `<div class="message-content"><span class="typing-indicator"><span></span><span></span><span></span></div>`
-        : `<div class="message-content">${text}</div>`;
-    messages.appendChild(div);
-    messages.scrollTop = messages.scrollHeight;
-}
-
-
-async function submitContactForm(event) {
-    event.preventDefault();
-
-    const payload = {
-        name: document.getElementById('name').value,
-        email: document.getElementById('email').value,
-        subject: document.getElementById('subject').value,
-        message: document.getElementById('message').value
-    };
-
-    const res = await fetch("/send-email", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload)
-    });
-
-    const data = await res.json();
-
-    alert(data.message);
-
-    if (res.ok) {
-        document.getElementById("contactForm").reset();
-    }
-
-    return false;
-}
+        function addMessage(text, sender, isTyping = false) {
+            const messages = document.getElementById('messages');
+            const div = document.createElement('div');
+            div.className = `message ${sender} ${isTyping ? 'typing' : ''}`;
+            div.innerHTML = isTyping 
+                ? `<div class="message-content"><span class="typing-indicator"><span></span><span></span><span></span></div>`
+                : `<div class="message-content">${text}</div>`;
+            messages.appendChild(div);
+            messages.scrollTop = messages.scrollHeight;
+        }
 
 
 
+        async function sendMessage() {
+            const input = document.getElementById('chatInput');
+            const message = input.value.trim();
+            if (!message) return;
+            
+            addMessage(message, 'user');
+            input.value = '';
+            addMessage('', 'bot', true); // Add typing indicator
+            
+            try {
+                const response = await fetch('/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: message })
+                });
+                const data = await response.json();
+                // Remove typing indicator
+                const typingMessage = document.querySelector('.message.typing');
+                if (typingMessage) typingMessage.remove();
+                // Add bot response
+                setTimeout(() => addMessage(data.response, 'bot'), 300);
+            } catch (error) {
+                const typingMessage = document.querySelector('.message.typing');
+                if (typingMessage) typingMessage.remove();
+                addMessage('Sorry, something went wrong!', 'bot');
+            }
+        }
 
-// Close chat when clicking outside
-document.addEventListener('click', function(event) {
-    const chatWindow = document.getElementById('chatWindow');
-    const chatBubble = document.querySelector('.chatbot-bubble');
-    if (!chatWindow.contains(event.target) && !chatBubble.contains(event.target)) {
-        chatWindow.classList.remove('active');
-    }
-});
+
+
+
+        // Close chat when clicking outside
+        document.addEventListener('click', function(event) {
+            const chatWindow = document.getElementById('chatWindow');
+            const chatBubble = document.querySelector('.chatbot-bubble');
+            if (!chatWindow.contains(event.target) && !chatBubble.contains(event.target)) {
+                chatWindow.classList.remove('active');
+            }
+        });
 //--------------------------------------------Chatbot end-----------------------------------
 
          
