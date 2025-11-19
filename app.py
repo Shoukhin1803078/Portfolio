@@ -1,5 +1,3 @@
-
-
 from flask import Flask, render_template
 from flask import send_from_directory
 import os 
@@ -11,20 +9,19 @@ from flask import Flask, render_template, request, jsonify
 # app.py
 from flask import Flask, request, jsonify
 from groq import Groq
-# from dotenv import load_dotenv
+from dotenv import load_dotenv
 import os
 
 
+import smtplib
+from email.mime.text import MIMEText
 
 
 
 
-
-# load_dotenv()  # load GROQ_API_KEY from .env
+load_dotenv()  # load GROQ_API_KEY from .env
 
 app = Flask(__name__)
-
-
 
 
 
@@ -100,12 +97,7 @@ When a user begins the conversation (e.g., with "hello" or "start"), **you MUST 
 
 
 
-
-
 app = Flask(__name__)
-
-
-
 
 
 
@@ -125,15 +117,7 @@ def simple_chatbot_response(user_message):
 
     return completion.choices[0].message.content
 
-# @app.route("/chat", methods=["POST"])
-# def chat():
-#     data = request.json
-#     user_message = data.get("message", "")  # <-- match your JS key
-#     if not user_message:
-#         return jsonify({"response": "No message provided"}), 400
-    
-#     bot_response = simple_chatbot_response(user_message)
-#     return jsonify({"response": bot_response})  # <-- match your JS expectation
+
 
 @app.route('/chat', methods=['POST'])
 def chat():
@@ -257,11 +241,6 @@ reasoning with 89% response accuracy on medical queries.
                          awards=awards)
 
 
-
-
-
-
-
 @app.route('/resume')
 def download_resume():
     current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -274,49 +253,44 @@ def download_resume():
 
 
 
-#-------------------------------------Chatbot building----------------------------------------
 
-# Add this chatbot function and endpoint to your main.py
+@app.route('/send-email', methods=['POST'])
+def send_email():
+    data = request.get_json()
 
-# def simple_chatbot_response(question):
-#     question_lower = question.lower()
-    
-#     if any(word in question_lower for word in ['hello', 'hi', 'hey', 'greetings']):
-#         return "Hello! I'm here to help you learn about MD AL AMIN TOKDER. What would you like to know?"
-#     elif any(word in question_lower for word in ['contact', 'email', 'phone', 'reach']):
-#         return "📧 Email: alamintokdercse@gmail.com\n📞 Phone: +8801750206042\n📍 Location: Dhaka, Bangladesh"
-#     elif any(word in question_lower for word in ['experience', 'work', 'job', 'career']):
-#         return "🔹 Current: ML Engineer at JB Connect Ltd, Dhaka (Jan 2024 - Present)\n🔹 Previous: ML Engineer at Devolved AI, USA (Sep 2022 - Nov 2023)\n🔹 Earlier: Junior Software Engineer at Code Studio Ltd (Jan 2022 - Nov 2022)"
-#     elif any(word in question_lower for word in ['education', 'study', 'university', 'degree']):
-#         return "🎓 BSc in Computer Science and Engineering\n🏫 Rajshahi University of Engineering and Technology (RUET)\n📅 2018 - 2023 | CGPA: 3.63"
-#     elif any(word in question_lower for word in ['project', 'luna', 'prescription']):
-#         return "🚀 **Luna**: Advanced LLM project using Generative AI, GPT, Decentralized AI\n🏥 **Prescription Handler**: AI-powered OCR system with HTR, LLMs, Python"
-#     elif any(word in question_lower for word in ['skill', 'technology', 'expertise', 'ai', 'ml']):
-#         return "💻 Skills: Generative AI, LLMs, GPT models, Decentralized AI, OCR, HTR, Python, Web Development (PHP, MySQL, HTML, CSS, JS)"
-#     elif any(word in question_lower for word in ['award', 'achievement', 'contest']):
-#         return "🏆 Awards:\n• ICPC Preliminary Dhaka Site 2023 (522th/2600 teams)\n• RUET Contest 2023 (7th Final)\n• North Bengal Startup Summit 2023 (4th)"
-#     else:
-#         return "I can help with info about:\n• Work experience & career\n• Education background\n• Projects & research\n• Skills & expertise\n• Contact details\n• Awards & achievements\n\nWhat interests you?"
+    name = data['name']
+    email = data['email']
+    subject = data['subject']
+    message = data['message']
 
+    full_message = f"""
+    Name: {name}
+    Email: {email}
 
+    Message:
+    {message}
+    """
 
+    msg = MIMEText(full_message)
+    msg["Subject"] = subject
+    msg["From"] = "alamintokdercse@gmail.com"
+    msg["To"] = "alamintokdercse@gmail.com"
 
-# @app.route('/chat', methods=['POST'])
-# def chat():
-#     try:
-#         data = request.get_json()
-#         user_message = data.get('message', '')
-        
-#         if not user_message.strip():
-#             return jsonify({'response': 'Please ask me something about Al Amin!'})
-        
-#         bot_response = simple_chatbot_response(user_message)
-#         return jsonify({'response': bot_response})
-    
-#     except Exception as e:
-#         return jsonify({'response': 'Sorry, I encountered an error. Please try again!'})
+    try:
+        server = smtplib.SMTP_SSL("smtp.gmail.com", 465)
+        server.login("alamintokdercse@gmail.com", os.getenv("GMAIL_APP_PASSWORD"))
+        server.sendmail(
+            "alamintokdercse@gmail.com",
+            "alamintokdercse@gmail.com",
+            msg.as_string()
+        )
+        server.quit()
 
-#-----------------------------------------------------------------------------
+        return jsonify({"message": "Message sent successfully!"}), 200
+
+    except Exception as e:
+        print(e)
+        return jsonify({"message": "Failed to send message"}), 500
 
 
 
@@ -324,27 +298,5 @@ def download_resume():
 
 if __name__ == '__main__':
     app.run(debug=True)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 

@@ -853,7 +853,10 @@
                         </a>
                     </div>
                 </div>
-                <form class="contact-form" data-aos="fade-left" onsubmit="return sendEmail(event)" id="contactForm">
+
+
+
+                <form class="contact-form" data-aos="fade-left" onsubmit="return submitContactForm(event)"id="contactForm">
                     <div class="form-group">
                         <input type="text" id="name" placeholder="Your Name" required class="form-input">
                     </div>
@@ -1077,33 +1080,36 @@ function addMessage(text, sender, isTyping = false) {
     messages.scrollTop = messages.scrollHeight;
 }
 
-async function sendMessage() {
-    const input = document.getElementById('chatInput');
-    const message = input.value.trim();
-    if (!message) return;
-    
-    addMessage(message, 'user');
-    input.value = '';
-    addMessage('', 'bot', true); // Add typing indicator
-    
-    try {
-        const response = await fetch('/chat', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ message: message })
-        });
-        const data = await response.json();
-        // Remove typing indicator
-        const typingMessage = document.querySelector('.message.typing');
-        if (typingMessage) typingMessage.remove();
-        // Add bot response
-        setTimeout(() => addMessage(data.response, 'bot'), 300);
-    } catch (error) {
-        const typingMessage = document.querySelector('.message.typing');
-        if (typingMessage) typingMessage.remove();
-        addMessage('Sorry, something went wrong!', 'bot');
+
+async function submitContactForm(event) {
+    event.preventDefault();
+
+    const payload = {
+        name: document.getElementById('name').value,
+        email: document.getElementById('email').value,
+        subject: document.getElementById('subject').value,
+        message: document.getElementById('message').value
+    };
+
+    const res = await fetch("/send-email", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+    });
+
+    const data = await res.json();
+
+    alert(data.message);
+
+    if (res.ok) {
+        document.getElementById("contactForm").reset();
     }
+
+    return false;
 }
+
+
+
 
 // Close chat when clicking outside
 document.addEventListener('click', function(event) {
