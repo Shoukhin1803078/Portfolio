@@ -9,7 +9,7 @@ from flask import Flask, render_template, request, jsonify
 # app.py
 from flask import Flask, request, jsonify
 from groq import Groq
-from dotenv import load_dotenv
+# from dotenv import load_dotenv
 import os
 
 
@@ -19,7 +19,7 @@ from email.mime.text import MIMEText
 
 
 
-load_dotenv()  # load GROQ_API_KEY from .env
+# load_dotenv()  # load GROQ_API_KEY from .env
 
 app = Flask(__name__)
 
